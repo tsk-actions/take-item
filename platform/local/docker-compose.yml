@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+
+  test:
+    build:
+      context: "../.."
+      dockerfile: platform/local/Dockerfile
+      target: test
+    working_dir: /bats
+    volumes:
+      - "../../tests:/bats"
+      - "../../source:/source"
+    environment:
+      ACTION_SOURCE_DIR: /source/rootfs
