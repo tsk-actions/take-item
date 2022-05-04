@@ -5,21 +5,33 @@ load "test_helper"
 setup() {
   export DEFAULT_SOURCE_LOCATION_WITHOUT_PATH="github.com:lktslionel/mock-repo"
   export DEFAULT_SOURCE_LOCATION_WITH_PATH="github.com:lktslionel/mock-repo:src"
-  export DEFAULT_REPOSITORY_NAME="lktslionel/mock-repo"
+  export DEFAULT_REPOSITORY="lktslionel/mock-repo"
+  export DEFAULT_REPOSITORY_NAME="${DEFAULT_REPOSITORY#*/}"
 }
 
 @test "it must get the repository name from the given source location w/o path" {
   run provider:github:repository_from_location "${DEFAULT_SOURCE_LOCATION_WITHOUT_PATH}"
-  assert_equal "${output}" "${DEFAULT_REPOSITORY_NAME}"
+  
+  assert_equal "${output}" "${DEFAULT_REPOSITORY}"
 }
 
 @test "it must get the repository name from the given source location w/ path" {
   run provider:github:repository_from_location "${DEFAULT_SOURCE_LOCATION_WITH_PATH}"
-  assert_equal "${output}" "${DEFAULT_REPOSITORY_NAME}"
+  
+  assert_equal "${output}" "${DEFAULT_REPOSITORY}"
 }
 
-# @test "it get the repository from github.com" {
-#   cd "${BATS_TEST_TMPDIR}"
-#   provider:github:get("${DEFAULT_SOURCE_LOCATION}")
-# }
+@test "it must download the repository source from the source w/o destination path" {
+  cd "${BATS_TEST_TMPDIR}"
+  provider:github:download "${DEFAULT_SOURCE_LOCATION_WITHOUT_PATH}"
+
+  assert_dir_exists "${DEFAULT_REPOSITORY_NAME}"
+}
+
+@test "it must download the repository source from the source w/ destination path" {
+  cd "${BATS_TEST_TMPDIR}"
+  provider:github:download "${DEFAULT_SOURCE_LOCATION_WITH_PATH}"
+
+  assert_dir_exists "${DEFAULT_REPOSITORY_NAME}"
+}
 
