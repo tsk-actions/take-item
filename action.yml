@@ -1,0 +1,24 @@
+name: 'take-item'
+description: 'Copy a folder or a file from a given source'
+inputs:
+  source:
+    description: 'Source location from where to copy folder/file.'
+    required: true
+  path:
+    description: 'The path of the folder/file to copy'
+    required: false
+  destination:
+    description: 'Destination location for the folder/file being copied'
+    required: true
+outputs:
+  src-path:
+    description: 'Source path'
+  dest-path:
+    description: 'Destination path'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - --source=${{ inputs.source }}
+  - --path=${{ inputs.path }}
+  - --destination=${{ inputs.destination }}
