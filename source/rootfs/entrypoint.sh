@@ -1,7 +1,37 @@
 #!/bin/bash
 
+# 
+# INITIALIZE
+# 
+
+# Panic on error
+set -eo pipefail
+
+__PROGRAM__=$(basename "$0")
+__DEBUG_MODE_ENABLED__=true
+
+
+# 
+# IMPORTS
+# 
+
 # shellcheck disable=SC1091
 source "${EXTRAS_DIR}/addons.bash"
+
+# 
+# VARS
+#
+
+
+# 
+# HELPERS
+#
+
+
+# 
+# LOGIC
+# 
+
 
 x:task "entrypoint"
 
