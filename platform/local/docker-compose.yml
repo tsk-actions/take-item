@@ -13,3 +13,4 @@ services:
       - "../../source:/source"
     environment:
       ACTION_SOURCE_DIR: /source/rootfs
+      GITHUB_TOKEN: $GITHUB_TOKEN
