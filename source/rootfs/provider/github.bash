@@ -15,7 +15,7 @@ provider:github:repository_from_location() {
   echo "${repository}"
 }
 
-provider:github:download() {
+provider:github:download_from_location() {
   local location="$1"
   local repository
 
