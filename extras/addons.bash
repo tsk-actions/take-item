@@ -2,6 +2,20 @@
 # ADDDONS
 #
 
+bats:within_testsuite() {
+if [[ -n ${BATS_TEST_FILENAME} ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+export DEFAULT_FILE_DESCRIPTOR=2
+
+# set default file descriptor depending on the running env
+if bats:within_testsuite; then
+    export DEFAULT_FILE_DESCRIPTOR=3
+fi
 
 x:getdatetime(){
     printf "time=%s" "$(date +%Y%m%dT%H%M%SZ)"
@@ -9,19 +23,19 @@ x:getdatetime(){
 
 x:step() {
     local message="${*}"
-    echo -e ""
-    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message}"
+    echo -e "" >&$DEFAULT_FILE_DESCRIPTOR
+    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message}" >&$DEFAULT_FILE_DESCRIPTOR
 }
 
 x:task() {
     local message="${*}"
-    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message} ..."
+    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message} ..." >&$DEFAULT_FILE_DESCRIPTOR
 }
 
 x:log() {
     local message="${*}"
     if [[ ${__DEBUG_MODE_ENABLED__} == "true" ]]; then
-        echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message}"
+        echo -e "$(x:getdatetime) - ${__PROGRAM__}: ${message}" >&$DEFAULT_FILE_DESCRIPTOR
     fi;
 
     if gh:within_workflow; then 
@@ -31,7 +45,7 @@ x:log() {
 
 x:err() {
     local message="${*}"
-    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ERROR - ${message}"
+    echo -e "$(x:getdatetime) - ${__PROGRAM__}: ERROR - ${message}" >&$DEFAULT_FILE_DESCRIPTOR
 
     if gh:within_workflow; then 
         gh:err "${message}"
@@ -41,8 +55,8 @@ x:err() {
 }
 
 x:done() {
-    echo -e "$(x:getdatetime) - ${__PROGRAM__}: Done."
-    echo -e ""
+    echo -e "$(x:getdatetime) - ${__PROGRAM__}: Done." >&$DEFAULT_FILE_DESCRIPTOR
+    echo -e "" >&$DEFAULT_FILE_DESCRIPTOR
 }
 
 
@@ -92,3 +106,6 @@ gh:debug() {
     local message="${*}"
      echo "::debug::${message}"
 }
+
+
+
