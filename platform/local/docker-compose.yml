@@ -11,6 +11,8 @@ services:
     volumes:
       - "../../tests:/bats"
       - "../../source:/source"
+      - "../../extras:/home/root/.extras"
     environment:
       ACTION_SOURCE_DIR: /source/rootfs
       GITHUB_TOKEN: $GITHUB_TOKEN
+      EXTRAS_DIR: /home/root/.extras
