@@ -4,6 +4,7 @@
 #
 
 export GITHUB_ORIGIN_URL='https://github.com'
+export GITHUB_PROVIDER_NAME='github.com'
 
 provider:github:repository_from_location() {
   local location="$1"
