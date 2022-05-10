@@ -28,3 +28,12 @@ load "${ACTION_SOURCE_DIR}/action.bash"
   
   assert_failure
 }
+
+@test "it must download the entire source from a given valid location w/o a path" {
+  cd "${BATS_TEST_TMPDIR}"
+  run action:download_from_location "${DEFAULT_SOURCE_LOCATION_WITHOUT_PATH}"
+
+  assert_dir_exists "${DEFAULT_REPOSITORY_NAME}"
+}
+
+}
