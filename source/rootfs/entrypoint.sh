@@ -18,7 +18,8 @@ __DEBUG_MODE_ENABLED__=true
 # shellcheck disable=SC1091
 source "${EXTRAS_DIR}/addons.bash"
 
-source "action.bash"
+# shellcheck disable=SC1091
+source "${ACTION_HOME_DIR}/action.bash"
 
 # 
 # VARS
@@ -33,7 +34,6 @@ source "action.bash"
 # 
 # LOGIC
 # 
-
 
 x:task "entrypoint"
 
