@@ -7,8 +7,6 @@ export ACTION_DEFAULT_PROVIDER='file'
 export ACTION_SUPPORTED_PROVIDERS="file:${GITHUB_PROVIDER_NAME}"
 
 
-# shellcheck disable=SC1091
-
 
 action:resource_from_location() {
   local resource

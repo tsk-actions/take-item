@@ -3,6 +3,8 @@
 # @provider: github
 #
 
+source "${EXTRAS_DIR}/addons.bash"
+
 export GITHUB_ORIGIN_URL='https://github.com'
 export GITHUB_PROVIDER_NAME='github.com'
 

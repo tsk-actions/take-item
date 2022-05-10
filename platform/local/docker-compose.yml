@@ -16,3 +16,4 @@ services:
       ACTION_SOURCE_DIR: /source/rootfs
       GITHUB_TOKEN: $GITHUB_TOKEN
       EXTRAS_DIR: /home/root/.extras
+      # __DEBUG_MODE_ENABLED__: true
