@@ -17,12 +17,21 @@ provider:github:repository_from_location() {
   echo "${repository}"
 }
 
+provider:github:path_from_location() {
+  local location="$1"
+  local path
+
+  path=$(echo "${location}" | cut -d: -f3)
+  
+  echo "${path}"
+}
+
 provider:github:download_from_location() {
   local location="$1"
-  local path="$2"
   local repository
   local repository_url
   local repository_name
+  local path
   local dest_path
 
   repository=$(provider:github:repository_from_location "${location}")
@@ -32,6 +41,7 @@ provider:github:download_from_location() {
   x:task "Cloning repository[${repository_url}]"
   git clone "${repository_url}"
   
+  path=$(provider:github:path_from_location "${location}")
 
   [[ -z "${path}" ]] && return # Skip the steps below if no given path
 
