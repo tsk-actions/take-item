@@ -23,8 +23,9 @@ load "test_helper"
 
 @test "it must download the repository source from a given location w/ destination path" {
   cd "${BATS_TEST_TMPDIR}"
-  provider:github:download_from_location "${DEFAULT_SOURCE_LOCATION_WITH_PATH}"
+  provider:github:download_from_location "${DEFAULT_SOURCE_LOCATION_WITH_PATH}" "${DEFAULT_SOURCE_LOCATION_PATH}"
 
-  assert_dir_exists "${DEFAULT_REPOSITORY_NAME}"
+  assert_dir_exists "${DEFAULT_SOURCE_LOCATION_PATH}"
+  assert_dir_not_exists "${DEFAULT_REPOSITORY}"
 }
 

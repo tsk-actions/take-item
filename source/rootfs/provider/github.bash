@@ -19,9 +19,37 @@ provider:github:repository_from_location() {
 
 provider:github:download_from_location() {
   local location="$1"
+  local path="$2"
   local repository
+  local repository_url
+  local repository_name
+  local dest_path
 
   repository=$(provider:github:repository_from_location "${location}")
+  repository_url="${GITHUB_ORIGIN_URL}/${repository}"
 
-  git clone "${GITHUB_ORIGIN_URL}/${repository}"
+
+  x:task "Cloning repository[${repository_url}]"
+  git clone "${repository_url}"
+  
+
+  [[ -z "${path}" ]] && return # Skip the steps below if no given path
+
+  repository_name="${repository_url##*/}"
+  dest_path="${repository_name}/${path}"
+
+  x:log "path: ${path}
+  repository_name: ${path}
+  dest_path: ${dest_path}
+  "
+
+  if [[ ! -d "${dest_path}" ]] && [[ ! -f "${dest_path}" ]]; then 
+    x:err "Nothing found at path[${path}] on the given repository url[${repository_url}]" 
+  fi
+
+  x:task "Copying contents at path[${path}] to the current workdir"
+  mv "${dest_path}" .
+
+  x:task "Deleting remaining repository contents"
+  rm -rf "${dest_path}"
 }

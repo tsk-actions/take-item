@@ -51,14 +51,14 @@ action:is_provider_supported() {
 
 action:download_from_location() {
   local location="$1"
-  local path
+  local path="$2"
   local provider
   
   provider="$(action:provider_from_location "${location}")"
 
   case ${provider} in
     github.com)
-      provider:github:download_from_location "${location}"
+      provider:github:download_from_location "${location}" "${path}"
       ;;
   esac
 
