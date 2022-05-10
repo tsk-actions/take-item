@@ -3,4 +3,4 @@
 
 load '../../test_helper'
 
-load "${ACTION_SOURCE_DIR}/provider/github.bash"
+load "${ACTION_HOME_DIR}/provider/github.bash"

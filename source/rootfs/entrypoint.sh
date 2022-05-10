@@ -18,6 +18,8 @@ __DEBUG_MODE_ENABLED__=true
 # shellcheck disable=SC1091
 source "${EXTRAS_DIR}/addons.bash"
 
+source "action.bash"
+
 # 
 # VARS
 #

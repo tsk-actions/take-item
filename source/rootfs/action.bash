@@ -1,7 +1,6 @@
 source "${EXTRAS_DIR}/addons.bash"
 
-export ACTION_SOURCE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-source "${ACTION_SOURCE_DIR}/provider/github.bash"
+source "${ACTION_HOME_DIR}/provider/github.bash"
 
 export ACTION_DEFAULT_PROVIDER='file'
 export ACTION_SUPPORTED_PROVIDERS="file:${GITHUB_PROVIDER_NAME}"

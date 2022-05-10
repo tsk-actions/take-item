@@ -2,7 +2,7 @@
 
 load "../test_helper"
 
-load "${ACTION_SOURCE_DIR}/action.bash"
+load "${ACTION_HOME_DIR}/action.bash"
 
 
 @test "it must get the provider name from a github location w/o path" {

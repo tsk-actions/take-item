@@ -10,10 +10,10 @@ services:
     working_dir: /bats
     volumes:
       - "../../tests:/bats"
-      - "../../source:/source"
-      - "../../extras:/home/root/.extras"
+      - "../../source/rootfs:/action"
+      - "../../extras:/home/action/.extras"
     environment:
-      ACTION_SOURCE_DIR: /source/rootfs
+      ACTION_HOME_DIR: /action
       GITHUB_TOKEN: $GITHUB_TOKEN
-      EXTRAS_DIR: /home/root/.extras
+      EXTRAS_DIR: /home/action/.extras
       # __DEBUG_MODE_ENABLED__: true
