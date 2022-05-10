@@ -36,4 +36,9 @@ load "${ACTION_SOURCE_DIR}/action.bash"
   assert_dir_exists "${DEFAULT_REPOSITORY_NAME}"
 }
 
+@test "it must download the entire source from a given valid location w/ a path" {
+  cd "${BATS_TEST_TMPDIR}"
+  run action:download_from_location "${DEFAULT_SOURCE_LOCATION_WITH_PATH}"
+
+  assert_dir_exists "${DEFAULT_SOURCE_LOCATION_PATH}"
 }
