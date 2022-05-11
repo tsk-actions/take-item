@@ -1,13 +1,15 @@
 #!/usr/bin/env bats
 
 setup() {
-  export ACTION_ROOT_DIR="${BATS_TEST_DIRNAME}/../.."
+  export ACTION_HOME_DIR="${ACTION_HOME_DIR}"
 }
 
 
 takeitem(){
-  bash -c "${ROOT_DIR}/source/rootfs/entrypoint.sh"
+  bash -c "${ACTION_HOME_DIR}/entrypoint.sh $*"
 }
 
 
-@test "it fail when \$src_dir and \$dst_tarball are unbound" {
+@test "it must take an entire github repository" {
+
+}
