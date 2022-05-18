@@ -29,53 +29,58 @@ provider:github:path_from_location() {
 
 provider:github:download_from_location() {
   local location="$1"
-  local destination="${2:-.}"
+  local destination="${2}"
   local repository
   local repository_url
   local repository_name
   local path
-  local src_path
+  local source
+  local workdir
+  local current_dir
+
+  current_dir="$(pwd)"
 
   repository=$(provider:github:repository_from_location "${location}")
   repository_url="${GITHUB_ORIGIN_URL}/${repository}"
   repository_name="${repository_url##*/}"
 
   x:log "
+  location: ${location}
   repository: ${repository}
   repository_url: ${repository_url}
   repository_name: ${repository_name} 
   "
 
+  destination="${current_dir}/${destination}"
+
   x:task "Ensuring destination [${destination}] exists"
-  mkdir -p ${destination}
-  x:check $?
+  mkdir -p "${destination}"
 
-  x:task "Getting the path[${path}] from the location[${location}]"
   path=$(provider:github:path_from_location "${location}")
+  path=${path:-.}
+  x:log "path: ${path}"
+
+  x:task "Creating a temp workdir folder"
+  workdir="$(mktemp -d)"
+
+  x:task "Cloning repository[${repository_url}] contents to temp dir[${workdir}]"
+  git clone "${repository_url}" "${workdir}"
   x:check $?
 
-  x:task "Setting the source and destination dirs/paths from path[${path}]"
-  src_dir="$(mktemp -d)/${repository_name}"
-  src_path="${src_dir}/${path}"
-  destination="${destination}/"
+  x:task "Compurte source dir from which contents will be copied"
+  source="${workdir}/${path}"
+  x:log "source: ${source}"
 
-  x:log "
-  src_dir: ${src_dir}
-  src_path: ${src_path}
-  destination: ${destination}
-  "
-
-  x:task "Cloning repository[${repository_url}] contents to temp dir[${src_dir}]"
-  git clone "${repository_url}" "${src_dir}"
+  x:task "Copy contents from source path[${source}] to destination[${destination}]"
+  [[ -d "${source}" ]] && cp -rf "${source}/." "${destination}"
+  [[ -f "${source}" ]] && cp -rf "${source}" "${destination}"
   x:check $?
 
-  shopt -o nullglob
+  x:log "current dir contents: $(tree .)"
+  x:log "source contents: $(tree "${source}")"
+  x:log "destination contents: $(tree "${destination}")"
 
-  x:task "Getting contents from source path[${src_path}] to destination path[${destination}]"
-  mv  "${src_path}" "${destination}"
-  x:check $? "Failed to get source contents"
-
-  x:task "Deleting temp dir[${src_dir}]"
-  rm -rf "${src_dir}"  
+  x:task "Deleting temp dir[${workdir}]"
+  rm -rf "${workdir}"  
 
 } 
