@@ -46,3 +46,11 @@ load "${ACTION_HOME_DIR}/action.bash"
 
   assert_file_exists "docs-README.md"
 }
+
+@test "it must download to a specific destination, the contents at the given path from a given valid location" {
+  cd "${BATS_TEST_TMPDIR}"
+  run action:download_from_location "github.com:lktslionel/mock-repo:docs" "temp/docs" 3>/dev/null
+
+  assert_dir_exists "temp/docs"
+  assert_file_exists "temp/docs/docs-README.md"
+}
