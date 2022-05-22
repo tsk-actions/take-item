@@ -16,4 +16,4 @@ services:
       ACTION_HOME_DIR: /action
       GITHUB_TOKEN: $GITHUB_TOKEN
       EXTRAS_DIR: /home/action/.extras
-      # __DEBUG_MODE_ENABLED__: true
+      __DEBUG_MODE_ENABLED__: "true"
